@@ -1,0 +1,61 @@
+function sendEmails(e) {
+  // Open the spread sheet
+  var ss = SpreadsheetApp.openById("Name_of_your_Spreadsheet");
+
+  const range = e.range;
+  const sheet = range.getSheet();
+  const rowIndex = range.getRow();
+  const colIndex = range.getColumn();
+  const EMAIL_COLUMN = 1; // Column index where for emails
+  const PREFIX_COLUMN = 2;
+  const FIRST_NAME_COLUMN = 3;
+  const MIDDLE_NAME_COLUMN = 4;
+  const SURNAME_COLUMN = 5;
+  const WORKSHOP_PACKAGE_COLUMN = 12
+  const PAYMENT_COLUMN = 14; // Column index where payment updates are done
+  const SHEET_NAME = "Payments"; // Sheet name you want to check
+  if (colIndex === PAYMENT_COLUMN && rowIndex > 1 && sheet.getName() === SHEET_NAME){
+
+      // Define variables for email composition
+
+      var sheet1 = ss.getSheetByName("Payments");
+      var range1 = sheet1.getRange(rowIndex, EMAIL_COLUMN);
+      var participant_email = range1.getValue();
+
+      var sheet2 = ss.getSheetByName("Payments");
+      var range2 = sheet2.getRange(rowIndex, PREFIX_COLUMN);
+      var prefix = range2.getValue();
+
+      var sheet3 = ss.getSheetByName("Payments");
+      var range3 = sheet3.getRange(rowIndex, FIRST_NAME_COLUMN);
+      var first_name = range3.getValue();
+
+      var sheet4 = ss.getSheetByName("Payments");
+      var range4 = sheet4.getRange(rowIndex, MIDDLE_NAME_COLUMN);
+      var middle_name = range4.getValue();
+
+      var sheet5 = ss.getSheetByName("Payments");
+      var range5 = sheet5.getRange(rowIndex, SURNAME_COLUMN);
+      var last_name = range5.getValue();
+
+      var sheet6 = ss.getSheetByName("Payments");
+      var range6 = sheet6.getRange(rowIndex, WORKSHOP_PACKAGE_COLUMN);
+      var workshop_package = range6.getValue();
+
+      var sheet7 = ss.getSheetByName("Payments");
+      var range7 = sheet7.getRange(rowIndex, PAYMENT_COLUMN);
+      var amount_paid = range7.getValue();
+
+      var message = "Dear "+prefix+" "+first_name+" "+middle_name+" "+last_name+","+"\n"+"\n"+
+  
+      "This is to confirm receipt of your payment for "+workshop_package+" at the 2022 Pre-AGM Workshop."+"\n"+"\n"+
+      "Thank you for your support."+"\n"+"\n"+
+      "Membership Services Department - ZICA";
+
+      var subject = "2022 Pre-AGM Workshop Payment Confirmation for "+prefix+" "+first_name+" "+last_name;
+
+      GmailApp.sendEmail(participant_email, subject, message);
+
+  }
+  
+}
